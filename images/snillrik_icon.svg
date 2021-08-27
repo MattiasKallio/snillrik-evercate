@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg width="20" height="20" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 20 20" style="enable-background:new 0 0 20 20;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#9C9B9B;}
+	.st1{fill:#868686;}
+	.st2{fill:#1D1D1B;}
+	.st3{fill:url(#SVGID_1_);}
+	.st4{opacity:0.31;}
+</style>
+<polygon class="st0" points="16.5,9.2 9.1,16.4 9.9,17.3 18.2,11 17.6,10.4 10.8,15.6 16.9,9.7 "/>
+<polygon class="st0" points="10.7,18 18.9,11.7 19.9,12.7 18.9,15.8 15.6,18.9 12.5,19.8 12,19.3 18.5,13.1 11.3,18.6 "/>
+<path class="st1" d="M16.9,9.7l-6.2,6l6.9-5.3c0,0-0.2,0.1-0.5-0.2C16.8,9.9,16.9,9.7,16.9,9.7z"/>
+<path class="st1" d="M18.2,11l-8.2,6.3c0,0,0.3-0.1,0.5,0.2s0.3,0.5,0.3,0.5l8.2-6.3c0,0-0.3,0-0.5-0.2C18.2,11.3,18.2,11,18.2,11z"
+	/>
+<path class="st1" d="M11.3,18.6l7.2-5.5L12,19.3c0,0,0.1-0.2-0.2-0.5C11.5,18.6,11.3,18.6,11.3,18.6z"/>
+<polygon class="st2" points="19,15.7 15.6,19 17,18.6 18.6,17 "/>
+<radialGradient id="SVGID_1_" cx="-354.7589" cy="110.1484" r="6.7946" fx="-354.7777" fy="115.5302" gradientTransform="matrix(-0.8087 0.7861 0.8082 0.8025 -367.7187 198.8156)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.1464" style="stop-color:#FFFFFC"/>
+	<stop  offset="0.2435" style="stop-color:#FFFEF3"/>
+	<stop  offset="0.3263" style="stop-color:#FFFDE4"/>
+	<stop  offset="0.4011" style="stop-color:#FEFBCF"/>
+	<stop  offset="0.4705" style="stop-color:#FEF8B3"/>
+	<stop  offset="0.5359" style="stop-color:#FEF692"/>
+	<stop  offset="0.5982" style="stop-color:#FDF269"/>
+	<stop  offset="0.6564" style="stop-color:#FDEE3C"/>
+	<stop  offset="0.7081" style="stop-color:#FCEA0D"/>
+	<stop  offset="0.9788" style="stop-color:#DAAB0A"/>
+</radialGradient>
+<path class="st3" d="M9.1,16.4c-2.3,0.2-4.8-0.6-6.6-2.4c-3.2-3.2-3.2-8.2,0.1-11.4S11-0.4,14.1,2.8c1.8,1.8,2.6,4.2,2.3,6.5
+	L9.1,16.4z"/>
+<g class="st4">
+	
+		<image style="overflow:visible;" width="312" height="322" xlink:href="CCD4AE55.png"  transform="matrix(0.24 0 0 0.24 -35.04 -31.68)">
+	</image>
+</g>
+<g class="st4">
+	
+		<image style="overflow:visible;" width="309" height="321" xlink:href="CCD4AE54.png"  transform="matrix(0.24 0 0 0.24 -34.32 -29.28)">
+	</image>
+</g>
+</svg>
