@@ -52,5 +52,3 @@ function snillrik_plugin_init() {
     load_plugin_textdomain( SNILLRIK_EV_NAME, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 add_action( 'plugins_loaded', 'snillrik_plugin_init');
-
-?>
