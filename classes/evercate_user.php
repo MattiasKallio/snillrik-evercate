@@ -58,9 +58,12 @@ class SNEV_User
         if (isset($this->Id) && is_numeric($this->Id)) {
             //put
             //todo: set user and only chage tags?
-            $user_response = $api->call("users", $this->to_array(), "PUT", $this->Id);
+            //error_log("putting stuf to evercate ".$this->Id);
+            
+            $user_response = $api->call("users",$this->to_array(true) , "PUT", $this->Id);
         } else {
             //post
+            //error_log("posting stuf to evercate ".print_r($this,true));
             $user_response = $api->call("users", $this->to_array(), "POST");
         }
 
@@ -71,10 +74,9 @@ class SNEV_User
     /**
      * Params to array.
      */
-    public function to_array()
+    public function to_array($is_update=false)
     {
-
-        return array_filter([
+        $array_out = [
             "Id" => $this->Id,
             "Username" => $this->Username,
             "FirstName" => $this->FirstName,
@@ -85,6 +87,12 @@ class SNEV_User
             "Locale" => $this->Locale,
             "GroupId" => $this->GroupId,
             "UserTags" => $this->UserTags
-        ]);
+        ];
+
+        if($is_update){
+            $array_out["ExistingUsername"] = $this->Username;
+        }
+
+        return array_filter($array_out);
     }
 }

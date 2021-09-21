@@ -89,12 +89,6 @@ class SNEV_API
             case "POST":
                 break;
         }
-/* 
-        if($method!=="GET"){
-            error_log("Meth: $method " . print_r($urlen, true));
-            error_log("args : " . print_r($args, true));
-            wp_die("end");
-        } */
 
         $response = wp_remote_request(
             $urlen,
@@ -112,8 +106,9 @@ class SNEV_API
 
         $responsecode = wp_remote_retrieve_response_code($response);
 
-        if (in_array($responsecode, [200, 201]))
+        if (in_array($responsecode, [200, 201])){
             return isset($response["body"]) ? $response["body"] : $response;
+        }
         else{
             error_log("Response : " . print_r($response, true));
             return $responsecode;

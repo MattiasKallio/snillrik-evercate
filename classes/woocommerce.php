@@ -20,7 +20,54 @@ class SNP1_Woocommerce
         add_action('save_post', [$this, 'meta_save']);
         add_filter('woocommerce_product_data_tabs', [$this, 'evercate_tab'], 98, 1);
         add_filter('woocommerce_product_data_panels', [$this, 'evercate_course_field_tag']);
+
+        add_filter('woocommerce_billing_fields', [$this, 'custom_woocommerce_billing_fields']);
+
+        //to hide address fields
+        add_filter('woocommerce_checkout_fields', [$this, 'simplify_checkout_virtual']);
     }
+
+
+
+    function simplify_checkout_virtual($fields)
+    {
+        $only_virtual = true;
+
+        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+            // Check if there are non-virtual products
+            if (!$cart_item['data']->is_virtual()) $only_virtual = false;
+        }
+
+        if ($only_virtual) {
+            unset($fields['billing']['billing_address_1']);
+            unset($fields['billing']['billing_address_2']);
+            unset($fields['billing']['billing_postcode']);
+            unset($fields['billing']['billing_country']);
+            unset($fields['billing']['billing_state']);
+            add_filter('woocommerce_enable_order_notes_field', '__return_false');
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Add extra fields
+     */
+    function custom_woocommerce_billing_fields($fields)
+    {
+        $fields['billing_titlefunction'] = array(
+            'label' => __('Titel / Funktion', 'woocommerce'), // Add custom field label
+            'placeholder' => _x('Skriv in titel eller funktion...', 'placeholder', 'woocommerce'), // Add custom field placeholder
+            'required' => false, // if field is required or not
+            'clear' => false, // add clear or not
+            'type' => 'text', // add field type
+            'class' => array('my-css'),    // add class name
+            'priority'    => 30,
+        );
+
+        return $fields;
+    }
+
 
     /**
      * For the tab on product pages.
@@ -42,7 +89,7 @@ class SNP1_Woocommerce
      */
     public function evercate_course_field_tag()
     {
-
+        global $post;
         $usergroupes = SNEV_API::get_usergroups();
         echo "<div id='evercate_course' class='panel woocommerce_options_panel'>";
         $ugstr = "";
@@ -81,6 +128,10 @@ class SNP1_Woocommerce
             'desc_tip' => false
         ));
 
+
+        //$content = get_post_meta($post->ID, 'evercate_course_extra_info' , true ) ;
+        //wp_editor( htmlspecialchars_decode($content), 'evercate_course_extra_info', array("textarea_name" => 'evercate_course_extra_info') );
+
         echo "</div>";
     }
 
@@ -112,6 +163,11 @@ class SNP1_Woocommerce
             } else {
                 delete_post_meta($post_id, 'evercate_course_tag');
             }
+
+            if (!empty($_POST['evercate_course_extra_info'])) {
+                $data=htmlspecialchars($_POST['evercate_course_extra_info']);
+                update_post_meta($post_id, 'evercate_course_extra_info', $data );
+              }
         } else {
             delete_post_meta($post_id, 'evercate_course_group');
             delete_post_meta($post_id, 'evercate_course_tag');
@@ -192,66 +248,58 @@ class SNP1_Woocommerce
     {
         $order = new WC_Order($order_id);
         $items = $order->get_items();
-        $articles = [];
+        $has_evercate = false;
 
-        //Loop through them, you can get all the relevant data:
-        $new_users = [];
+        $email = $order->get_billing_email();
+        $titlefunction = $order->get_meta('_billing_titlefunction');
+        $city = $order->get_billing_city();
+        $company = $order->get_billing_company();
+
+        $userinfo = [
+            "FirstName" => $order->get_billing_first_name(),
+            "LastName" => $order->get_billing_last_name(),
+            "Username" => $email,
+            "Phone" => $order->get_billing_phone(),
+            "Notes" => "$company\n$titlefunction\n$city"
+        ];
+
+        //check if user exists otherwise create.
+        $evercate_user = new SNEV_User($email);
+        if ($evercate_user->Id == null) {
+            $evercate_user = new SNEV_User($userinfo);
+            $evercate_user->UserTags = [];
+        }
+        //loop through items to check for evercate.
         foreach ($items as $item_id => $item) {
             $product_name = $item['name'];
             $product_id = $item['product_id'];
+            $product = wc_get_product($product_id);
             $course_tag = get_post_meta($product_id, 'evercate_course_tag', true);
             $course_group = get_post_meta($product_id, 'evercate_course_group', true);
 
-
             if ($course_tag != "" && $course_group != "") { //and if posted not set
+                $has_evercate = true;
                 //  if kurs check tag to match in api
+                $evercate_user->GroupId = $course_group;
 
-                $product = wc_get_product($product_id);
-
-                //New user from aticle
-                $item_meta = $item->get_meta_data();
-
-                //ToDo do a matchmaker thingie that's not hardcoded.
-                $matchmaker = [
-                    "Förnamn" => "FirstName",
-                    "Efternamn" => "LastName",
-                    "E-postadress" => "Username",
-                    "Mobilnummer" => "Phone",
-                ];
-                $userinfo = [];
-                $userinfo["Notes"] = "";
-
-                foreach ($item_meta as $new_user_info) {
-                    if (in_array($new_user_info->key, array_keys($matchmaker))) {
-                        $userinfo[$matchmaker[$new_user_info->key]] = $new_user_info->value;
-                    } else if (is_string($new_user_info->value)) {
-
-                        $user_info_str = $new_user_info->key . ": " . $new_user_info->value . "\n";
-                        $userinfo["Notes"] .= $user_info_str;
-                    }
+                if (!in_array($course_tag, $evercate_user->UserTags)) {
+                    $evercate_user->UserTags[] = intval($course_tag); //add to existing tags.
                 }
-
-                $evercate_user = new SNEV_User($userinfo["Username"]);
-                $userinfo["GroupId"] = $course_group;
-
-
-                if ($evercate_user->Id != null) {
-                    if (!in_array($course_tag, $evercate_user->UserTags))
-                        $evercate_user->UserTags[] = $course_tag; //add to existing tags.
-                } else {
-                    $evercate_user = new SNEV_User($userinfo);
-                    $evercate_user->UserTags[] = $course_tag; //add to new tags.
-                }
-
-                $response = $evercate_user->save();
-
-                if ($response) {
-                    $order->update_meta_data(SNILLRIK_EV_NAME . '_user_added_id', $response);
-                    $order->save();
-                    error_log("evercate response: " . print_r($response, true));
-                } else
-                    error_log("woo response: " . print_r($response, true));
             }
+        }
+
+        //save to evercate and woo if found.
+        if ($has_evercate && count($evercate_user->UserTags) > 0) {
+            error_log("andra: " . print_r($evercate_user, true));
+
+            $response = $evercate_user->save();
+
+            if ($response) {
+                $order->update_meta_data(SNILLRIK_EV_NAME . '_user_added_id', $response);
+                $order->save();
+                error_log("evercate response: " . print_r($response, true));
+            } else
+                error_log("woo response: " . print_r($response, true));
         }
     }
 }
