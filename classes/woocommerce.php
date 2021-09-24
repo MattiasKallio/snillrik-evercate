@@ -21,14 +21,15 @@ class SNP1_Woocommerce
         add_filter('woocommerce_product_data_tabs', [$this, 'evercate_tab'], 98, 1);
         add_filter('woocommerce_product_data_panels', [$this, 'evercate_course_field_tag']);
 
+        //Adding title/function field to checkout fields
         add_filter('woocommerce_billing_fields', [$this, 'custom_woocommerce_billing_fields']);
-
-        //to hide address fields
+        //to hide address fields on virtual product
         add_filter('woocommerce_checkout_fields', [$this, 'simplify_checkout_virtual']);
     }
 
-
-
+    /**
+     * Removing adressfields if virtual product.
+     */
     function simplify_checkout_virtual($fields)
     {
         $only_virtual = true;
@@ -67,7 +68,6 @@ class SNP1_Woocommerce
 
         return $fields;
     }
-
 
     /**
      * For the tab on product pages.
@@ -165,9 +165,9 @@ class SNP1_Woocommerce
             }
 
             if (!empty($_POST['evercate_course_extra_info'])) {
-                $data=htmlspecialchars($_POST['evercate_course_extra_info']);
-                update_post_meta($post_id, 'evercate_course_extra_info', $data );
-              }
+                $data = htmlspecialchars($_POST['evercate_course_extra_info']);
+                update_post_meta($post_id, 'evercate_course_extra_info', $data);
+            }
         } else {
             delete_post_meta($post_id, 'evercate_course_group');
             delete_post_meta($post_id, 'evercate_course_tag');

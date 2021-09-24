@@ -13,7 +13,6 @@ class SNEV_API
         add_action('wp_ajax_snev_testcall', [$this, 'testcall']);
     }
 
-
     /**
      * For testing purposes only, will be removed later.
      */

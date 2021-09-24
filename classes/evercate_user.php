@@ -45,9 +45,8 @@ class SNEV_User
      */
     public function save()
     {
-        //Add user and set course? 
         $api = new SNEV_API();
-        //$userinfos = sanitize_post($userinfos);
+
         if (!isset($this->Username) || !is_email($this->Username)) {
             error_log("username is not email " . $this->Username);
             return;
@@ -56,11 +55,8 @@ class SNEV_User
         $user_response = false;
 
         if (isset($this->Id) && is_numeric($this->Id)) {
-            //put
-            //todo: set user and only chage tags?
             //error_log("putting stuf to evercate ".$this->Id);
-            
-            $user_response = $api->call("users",$this->to_array(true) , "PUT", $this->Id);
+            $user_response = $api->call("users", $this->to_array(true), "PUT", $this->Id);
         } else {
             //post
             //error_log("posting stuf to evercate ".print_r($this,true));
@@ -74,7 +70,7 @@ class SNEV_User
     /**
      * Params to array.
      */
-    public function to_array($is_update=false)
+    public function to_array($is_update = false)
     {
         $array_out = [
             "Id" => $this->Id,
@@ -89,7 +85,7 @@ class SNEV_User
             "UserTags" => $this->UserTags
         ];
 
-        if($is_update){
+        if ($is_update) {
             $array_out["ExistingUsername"] = $this->Username;
         }
 
