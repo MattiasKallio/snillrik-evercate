@@ -13,6 +13,7 @@ class SNP1_Woocommerce
     public function __construct()
     {
         add_action("woocommerce_order_status_completed", [$this, 'woocommerce_payment_complete'], 10, 3);
+        add_action("woocommerce_payment_complete", [$this, 'woocommerce_payment_complete'], 10, 3);
         add_action("woocommerce_admin_order_data_after_shipping_address", [$this, 'woocommerce_admin_order_data'], 10, 3);
         add_action('woocommerce_add_to_cart_validation', [$this, 'add_to_cart'], 40, 2);
 
@@ -247,6 +248,11 @@ class SNP1_Woocommerce
     public function woocommerce_payment_complete($order_id)
     {
         $order = new WC_Order($order_id);
+
+        $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
+        if ($evercate_user_id != "")
+            return;
+
         $items = $order->get_items();
         $has_evercate = false;
 
