@@ -1,12 +1,12 @@
 <?php
 defined('ABSPATH') or die('This script cannot be accessed directly.');
 /**
- * Basic connections to P1
+ * Basic connections to Evercate
  */
 
-new SNP1_Woocommerce();
+new SNEvercate_Woocommerce();
 
-class SNP1_Woocommerce
+class SNEvercate_Woocommerce
 {
     private $woocommercemeta = [];
 
@@ -26,6 +26,9 @@ class SNP1_Woocommerce
         add_filter('woocommerce_billing_fields', [$this, 'custom_woocommerce_billing_fields']);
         //to hide address fields on virtual product
         add_filter('woocommerce_checkout_fields', [$this, 'simplify_checkout_virtual']);
+
+        //For pushing button in order in admin if adding user failed.
+        add_action('wp_ajax_evercate_push_woo_to_register',        [$this, 'push_woo_to_register']);
     }
 
     /**
@@ -59,11 +62,10 @@ class SNP1_Woocommerce
     {
         $fields['billing_titlefunction'] = array(
             'label' => __('Titel / Funktion', 'woocommerce'), // Add custom field label
-            'placeholder' => _x('Skriv in titel eller funktion...', 'placeholder', 'woocommerce'), // Add custom field placeholder
+            'placeholder' => esc_attr_x('Skriv in titel eller funktion...', 'placeholder', 'woocommerce'), // Add custom field placeholder
             'required' => false, // if field is required or not
             'clear' => false, // add clear or not
             'type' => 'text', // add field type
-            'class' => array('my-css'),    // add class name
             'priority'    => 30,
         );
 
@@ -75,7 +77,6 @@ class SNP1_Woocommerce
      */
     public function evercate_tab($tabs)
     {
-
         $tabs['sn_evercate'] = array(
             'label'        => __('Evercate', SNILLRIK_EV_NAME),
             'target'    => 'evercate_course',
@@ -98,25 +99,25 @@ class SNP1_Woocommerce
         $usergroupes = reset($usergroupes);
         if (isset($usergroupes["Tags"])) {
             foreach ($usergroupes["Tags"] as $group) {
-                $ugstr .= "<span class='evercate-select-tag' data-tagid='" . $group["Id"] . "'>" . $group["Name"] . "</span>";
+                $ugstr .= "<span class='evercate-select-tag' data-tagid='" . esc_attr($group["Id"]) . "'>" . esc_attr($group["Name"]) . "</span>";
             }
         }
 
-        $usergroup_id = $usergroupes["Id"];
-        $usergroup_name = $usergroupes["Name"];
+        $usergroup_id = esc_attr($usergroupes["Id"]);
+        $usergroup_name = esc_attr($usergroupes["Name"]);
 
         woocommerce_wp_checkbox(array(
             'id'          => 'evercate_course_product',
-            'label'       => __('Enable Evevercate', SNILLRIK_EV_NAME),
-            'description' => __('To enable evercate on this product.', SNILLRIK_EV_NAME),
+            'label'       => esc_attr__('Enable Evevercate', SNILLRIK_EV_NAME),
+            'description' => esc_attr__('To enable evercate on this product.', SNILLRIK_EV_NAME),
             'desc_tip'    => true,
         ));
 
         woocommerce_wp_text_input(array(
             'id' => 'evercate_course_group',
             'class' => 'evercate_course_usergroup short',
-            'label' => __("Evercate user group ($usergroup_name)", SNILLRIK_EV_NAME),
-            'description' => "<div class='evercate-select-group_info'>" . sprintf(__('User Group %s', SNILLRIK_EV_NAME), $usergroup_id) . "</div>",
+            'label' => esc_attr__("Evercate user group ($usergroup_name)", SNILLRIK_EV_NAME),
+            'description' => "<div class='evercate-select-group_info'>" . sprintf(esc_attr__('User Group %s', SNILLRIK_EV_NAME), $usergroup_id) . "</div>",
             'desc_tip' => true,
             'value' => $usergroup_id,
             'custom_attributes' => array('readonly' => 'readonly')
@@ -125,7 +126,7 @@ class SNP1_Woocommerce
             'id' => 'evercate_course_tag',
             'class' => 'evercate_course_field_tag short',
             'label' => __('Evercate kurs-tagg', SNILLRIK_EV_NAME),
-            'description' => "<div class='evercate-select-tag-info'>" . sprintf(__('Click to select the course if this is a course %s', SNILLRIK_EV_NAME), $ugstr)  . "</div>",
+            'description' => "<div class='evercate-select-tag-info'>" . sprintf(esc_attr__('Click to select the course if this is a course %s', SNILLRIK_EV_NAME), $ugstr)  . "</div>",
             'desc_tip' => false
         ));
 
@@ -208,7 +209,7 @@ class SNP1_Woocommerce
 
                     if ($alredy_in_course) {
                         //in course
-                        wc_add_notice(__('User already in current course.', SNILLRIK_EV_NAME), 'error');
+                        wc_add_notice(esc_attr__('User already in current course.', SNILLRIK_EV_NAME), 'error');
                         return false;
                     } else {
                         //go on, will add course to current user in woo.
@@ -233,10 +234,34 @@ class SNP1_Woocommerce
     {
         $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
         if ($evercate_user_id != "") {
-            echo "<br/><h3>" . __("Orderinformation from Evercate", SNILLRIK_EV_NAME) . "</h3>";
+            echo "<br/><h3>" . esc_attr__("Orderinformation from Evercate", SNILLRIK_EV_NAME) . "</h3>";
 
-            if (isset($evercate_user_id->UserCreatedDate))
-                echo "<strong>" . __("Date added: ", SNILLRIK_EV_NAME) . "</strong>" . date("Y-m-d H:i:s", strtotime($evercate_user_id->UserCreatedDate));
+            if (isset($evercate_user_id->UserCreatedDate)) {
+                echo "<strong>" . esc_attr__("Date added: ", SNILLRIK_EV_NAME) . "</strong>" . date("Y-m-d H:i:s", strtotime($evercate_user_id->UserCreatedDate));
+            } else {
+                $status = $order->get_status();
+                if ($status == "completed" || $status == "processing") {
+                    echo "<p>" . esc_attr__("Should be done automatically but status is completed or processing.", SNILLRIK_EV_NAME) . "</p>
+                    <button class='button button-primary everrcate-button' id='snevercate_woo_order_post'>" . esc_attr__("Post to Evercate", SNILLRIK_EV_NAME) . "</button>
+                    <div id='snevercate_order_push_message'></div>";
+                }
+            }
+        }
+    }
+
+    /**
+     * For the button that pushes to Evercate manually.
+     */
+    function push_woo_to_register()
+    {
+        $woo_order_id = isset($_POST["woo_order_id"]) ? sanitize_post($_POST["woo_order_id"]) : false;
+        $order = new WC_Order($woo_order_id);
+        $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
+        if ($evercate_user_id != "") {
+            $snevwoo = new SNEvercate_Woocommerce();
+            $response = $snevwoo->woocommerce_payment_complete($order->get_id());
+            $response_text = $response == "" ? "" : "Svar från server: " . esc_html(print_r($response, true));
+            wp_send_json_success($response_text);
         }
     }
 

@@ -19,7 +19,7 @@ class SNEV_API
     public function testcall()
     {
         $userid = isset($_POST["userid"]) ? sanitize_text_field($_POST["userid"]) : false;
-        error_log(print_r($userid, true));
+        //error_log(print_r($userid, true));
         $response = SNEV_API::get_user($userid);
         echo wp_send_json($response);
     }
@@ -59,7 +59,6 @@ class SNEV_API
      */
     public function call($endpoint, $args = array(), $method = "GET", $userid = false)
     {
-        //error_log(print_r($userid, true));
         $apiurl = get_option(SNILLRIK_EV_NAME . "_apiurl");
         $apitoken = get_option(SNILLRIK_EV_NAME . "_apitoken");
         if ($apiurl == "" || $apitoken == ""){
@@ -93,6 +92,7 @@ class SNEV_API
             $urlen,
             array(
                 'method' => $method,
+                'timeout'     => 30,
                 'headers' => array(
                     "Content-type" => "application/json",
                     "Authorization" => "Bearer " . $apitoken,

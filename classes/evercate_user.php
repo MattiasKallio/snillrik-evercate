@@ -55,11 +55,10 @@ class SNEV_User
         $user_response = false;
 
         if (isset($this->Id) && is_numeric($this->Id)) {
-            //error_log("putting stuf to evercate ".$this->Id);
+            //updating user
             $user_response = $api->call("users", $this->to_array(true), "PUT", $this->Id);
         } else {
-            //post
-            //error_log("posting stuf to evercate ".print_r($this,true));
+            //new user
             $user_response = $api->call("users", $this->to_array(), "POST");
         }
 
@@ -86,7 +85,7 @@ class SNEV_User
         ];
 
         if ($is_update) {
-            $array_out["ExistingUsername"] = $this->Username;
+            $array_out["ExistingUsername"] = esc_attr($this->Username);
         }
 
         return array_filter($array_out);

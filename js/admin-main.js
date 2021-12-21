@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
     });
 
     $("#snevercate_testcall").on("click", function() {
-        console.log("klkii");
+
         var data = {
             "action": "snev_testcall",
             "userid": $("#snevercate_testcall_id").val()
@@ -32,5 +32,26 @@ jQuery(document).ready(function($) {
         $("#evercate_course_tag").val(thisid);
     });
 
+    $("#snevercate_woo_order_post").on("click", function(e) {
+        e.preventDefault();
+        $("#snevercate_order_push_message").html("");
+        var data = {
+            "action": "evercate_push_woo_to_register",
+            "woo_order_id": woocommerce_admin_meta_boxes.post_id //assuming woo is pluggedin.
+        };
+
+        $.post(
+            ajaxurl,
+            data,
+            function(response) {
+                console.log(response);
+                if (response.data != "")
+                    $("#snevercate_order_push_message").html(response.data);
+                else
+                    location.reload();
+
+            }
+        );
+    });
 
 });

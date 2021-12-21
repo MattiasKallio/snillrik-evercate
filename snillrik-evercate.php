@@ -28,11 +28,6 @@ function snillrik_snevercate_add_admin_scripts(){
     wp_enqueue_style('snillrik-snevercate-front', SNILLRIK_EV_PLUGIN_URL . 'css/front.css');
     wp_enqueue_style('snillrik-snevercate-admin', SNILLRIK_EV_PLUGIN_URL . 'css/admin.css');
     wp_enqueue_script('snillrik-snevercate-admin-script', SNILLRIK_EV_PLUGIN_URL . 'js/admin-main.js', array('jquery'));
-    
-/*     wp_localize_script('snillrik-snevercate-main-script', 'snev', array(
-        'snev_name' => SNILLRIK_EV_NAME
-    )); */
-    
 }
 add_action('admin_enqueue_scripts', 'snillrik_snevercate_add_admin_scripts');
 
@@ -41,10 +36,6 @@ add_action('admin_enqueue_scripts', 'snillrik_snevercate_add_admin_scripts');
  */
 function snillrik_snevercate_add_scripts(){
     wp_enqueue_style('snillrik-snevercate-main', SNILLRIK_EV_PLUGIN_URL . 'css/front.css');
-    wp_register_script('snillrik-snevercate-main-script', SNILLRIK_EV_PLUGIN_URL . 'js/main.js', array('jquery'));
-    wp_localize_script('snillrik-snevercate-main-script', 'snev', array(
-        'ajax_url' => admin_url('admin-ajax.php')
-    ));
 }
 add_action('wp_enqueue_scripts', 'snillrik_snevercate_add_scripts');
 

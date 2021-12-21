@@ -40,10 +40,10 @@ class SNEV_Settings
         submit_button();
         echo '</form>';
 
-        echo '<div class="' . SNILLRIK_EV_NAME . '_admin_block"><h2>' . __('Test connection', SNILLRIK_EV_NAME) . '</h2>
-        <p>' . __('Make a test call to evercate. Use console to see response.', SNILLRIK_EV_NAME) . '</p>
+        echo '<div class="' . SNILLRIK_EV_NAME . '_admin_block"><h2>' . esc_attr__('Test connection', SNILLRIK_EV_NAME) . '</h2>
+        <p>' . esc_attr__('Make a test call to evercate. Use console to see response.', SNILLRIK_EV_NAME) . '</p>
         <input type="text" id="' . SNILLRIK_EV_NAME . '_testcall_id" placeholder="ID | Mail" />
-        <input type="button" id="' . SNILLRIK_EV_NAME . '_testcall" value="' . __('Test call', SNILLRIK_EV_NAME) . '" /></div>';
+        <input type="button" id="' . SNILLRIK_EV_NAME . '_testcall" value="' . esc_attr__('Test call', SNILLRIK_EV_NAME) . '" /></div>';
     }
 
     public function credentials_section()
@@ -81,17 +81,17 @@ class SNEV_Settings
     public function print_field_apiurl()
     {
         $setting = get_option(SNILLRIK_EV_NAME . '_apiurl', "https://api-v1.evercate.com/");
-        $placeholder = __('Long and very weird text string', SNILLRIK_EV_NAME);
+        $placeholder = esc_attr__('Long and very weird text string', SNILLRIK_EV_NAME);
         $nameid = SNILLRIK_EV_NAME . '_apiurl';
 
-        echo '<input type="text" id="' . $nameid . '" name="' . $nameid . '" placeholder="' . $placeholder . '" value="' . $setting . '" />';
+        echo '<input type="text" id="' . esc_attr($nameid) . '" name="' . esc_attr($nameid) . '" placeholder="' . esc_attr($placeholder) . '" value="' . esc_attr($setting) . '" />';
     }
 
     public function print_field_apitoken()
     {
         $setting = get_option(SNILLRIK_EV_NAME . '_apitoken');
-        $placeholder = __('Long and very weird text string', SNILLRIK_EV_NAME);
-        $nameid = SNILLRIK_EV_NAME . '_apitoken';
+        $placeholder = esc_attr__('Long and very weird text string', SNILLRIK_EV_NAME);
+        $nameid = esc_attr(SNILLRIK_EV_NAME . '_apitoken');
         echo '<input type="text" id="' . $nameid . '" name="' . $nameid . '" placeholder="' . $placeholder . '" value="' . $setting . '" />';
     }
 
