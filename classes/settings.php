@@ -92,7 +92,7 @@ class SNEV_Settings
         $setting = get_option(SNILLRIK_EV_NAME . '_apitoken');
         $placeholder = esc_attr__('Long and very weird text string', SNILLRIK_EV_NAME);
         $nameid = esc_attr(SNILLRIK_EV_NAME . '_apitoken');
-        echo '<input type="text" id="' . $nameid . '" name="' . $nameid . '" placeholder="' . $placeholder . '" value="' . $setting . '" />';
+        echo '<input type="text" id="' .  esc_attr($nameid) . '" name="' .  esc_attr($nameid) . '" placeholder="' .  esc_attr($placeholder) . '" value="' .  esc_attr($setting) . '" />';
     }
 
     /**
