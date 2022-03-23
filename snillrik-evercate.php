@@ -31,14 +31,6 @@ function snillrik_snevercate_add_admin_scripts(){
 }
 add_action('admin_enqueue_scripts', 'snillrik_snevercate_add_admin_scripts');
 
-/**
- * Adds script for frontend users.
- */
-function snillrik_snevercate_add_scripts(){
-    wp_enqueue_style('snillrik-snevercate-main', SNILLRIK_EV_PLUGIN_URL . 'css/front.css');
-}
-add_action('wp_enqueue_scripts', 'snillrik_snevercate_add_scripts');
-
 function snillrik_plugin_init() {
     load_plugin_textdomain( SNILLRIK_EV_NAME, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }

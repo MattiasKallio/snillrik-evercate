@@ -12,7 +12,7 @@ class SNEvercate_Woocommerce
 
     public function __construct()
     {
-        add_action("woocommerce_order_status_completed", [$this, 'woocommerce_payment_complete'], 10, 3);
+        add_action("woocommerce_order_status_completed", [$this, 'woocommerce_payment_complete'], 10, 3); //mostly if not set automatically with hook below.
         add_action("woocommerce_payment_complete", [$this, 'woocommerce_payment_complete'], 10, 3);
         add_action("woocommerce_admin_order_data_after_shipping_address", [$this, 'woocommerce_admin_order_data'], 10, 3);
         add_action('woocommerce_add_to_cart_validation', [$this, 'add_to_cart'], 40, 2);
@@ -232,12 +232,12 @@ class SNEvercate_Woocommerce
      */
     public function woocommerce_admin_order_data($order)
     {
-        $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
-        if ($evercate_user_id != "") {
+        $evercate_user_info = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_info'));
+        if ($evercate_user_info != "") {
             echo "<br/><h3>" . esc_attr__("Orderinformation from Evercate", SNILLRIK_EV_NAME) . "</h3>";
 
-            if (isset($evercate_user_id->UserCreatedDate)) {
-                echo "<strong>" . esc_attr__("Date added: ", SNILLRIK_EV_NAME) . "</strong>" . date("Y-m-d H:i:s", strtotime($evercate_user_id->UserCreatedDate));
+            if (isset($evercate_user_info->UserCreatedDate)) {
+                echo "<strong>" . esc_attr__("Date added: ", SNILLRIK_EV_NAME) . "</strong>" . date("Y-m-d H:i:s", strtotime($evercate_user_info->UserCreatedDate));
             } else {
                 $status = $order->get_status();
                 if ($status == "completed" || $status == "processing") {
@@ -256,8 +256,8 @@ class SNEvercate_Woocommerce
     {
         $woo_order_id = isset($_POST["woo_order_id"]) ? sanitize_post($_POST["woo_order_id"]) : false;
         $order = new WC_Order($woo_order_id);
-        $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
-        if ($evercate_user_id != "") {
+        $evercate_user_info = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_info'));
+        if ($evercate_user_info != "") {
             $snevwoo = new SNEvercate_Woocommerce();
             $response = $snevwoo->woocommerce_payment_complete($order->get_id());
             $response_text = $response == "" ? "" : "Svar från server: " . esc_html(print_r($response, true));
@@ -267,15 +267,15 @@ class SNEvercate_Woocommerce
 
     /**
      * Action for when payment is completed.
-     * Adding user to Evercate if not exists and adding to course according to the Evercate tag..
+     * Adding user to Evercate if not exists and adding to course according to the Evercate tag.. So it both tries to post to Evercate on payment complete and status is set to payment complete in case not automatic payments are set or working.
      * @param integer @order_id the order id from WooCommerce action.
      */
     public function woocommerce_payment_complete($order_id)
     {
         $order = new WC_Order($order_id);
 
-        $evercate_user_id = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_id'));
-        if ($evercate_user_id != "")
+        $evercate_user_info = json_decode($order->get_meta(SNILLRIK_EV_NAME . '_user_added_info'));
+        if ($evercate_user_info != "")
             return;
 
         $items = $order->get_items();
@@ -326,7 +326,7 @@ class SNEvercate_Woocommerce
             $response = $evercate_user->save();
 
             if ($response) {
-                $order->update_meta_data(SNILLRIK_EV_NAME . '_user_added_id', $response);
+                $order->update_meta_data(SNILLRIK_EV_NAME . '_user_added_info', $response);
                 $order->save();
                 error_log("evercate response: " . print_r($response, true));
             } else

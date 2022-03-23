@@ -6,10 +6,9 @@ jQuery(document).ready(function($) {
         else {
             inputten.prop('checked', true)
         }
-
-        //console.log(inputten.attr("id"));
     });
 
+    //Just used to make a test call from within admin.
     $("#snevercate_testcall").on("click", function() {
 
         var data = {
@@ -26,12 +25,14 @@ jQuery(document).ready(function($) {
         );
     });
 
+    //Select tag to course tag
     $(".evercate-select-tag").on("click", function() {
         let thisid = $(this).data("tagid");
-        console.log(thisid);
+        //console.log(thisid);
         $("#evercate_course_tag").val(thisid);
     });
 
+    //to push order to Evercate if it has failed eariler for some reason.
     $("#snevercate_woo_order_post").on("click", function(e) {
         e.preventDefault();
         $("#snevercate_order_push_message").html("");

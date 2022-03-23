@@ -81,7 +81,7 @@ class SNEV_Settings
     public function print_field_apiurl()
     {
         $setting = get_option(SNILLRIK_EV_NAME . '_apiurl', "https://api-v1.evercate.com/");
-        $placeholder = esc_attr__('Long and very weird text string', SNILLRIK_EV_NAME);
+        $placeholder = esc_attr__('Url to evercate api', SNILLRIK_EV_NAME);
         $nameid = SNILLRIK_EV_NAME . '_apiurl';
 
         echo '<input type="text" id="' . esc_attr($nameid) . '" name="' . esc_attr($nameid) . '" placeholder="' . esc_attr($placeholder) . '" value="' . esc_attr($setting) . '" />';
