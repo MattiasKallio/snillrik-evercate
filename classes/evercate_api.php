@@ -48,7 +48,6 @@ class SNEV_API
         return is_numeric($response) ? false : json_decode($response,true);
     }
 
-
     /**
      * A basic call to the register.
      *

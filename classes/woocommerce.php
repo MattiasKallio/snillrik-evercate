@@ -130,10 +130,6 @@ class SNEvercate_Woocommerce
             'desc_tip' => false
         ));
 
-
-        //$content = get_post_meta($post->ID, 'evercate_course_extra_info' , true ) ;
-        //wp_editor( htmlspecialchars_decode($content), 'evercate_course_extra_info', array("textarea_name" => 'evercate_course_extra_info') );
-
         echo "</div>";
     }
 
