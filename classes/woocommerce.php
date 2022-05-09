@@ -12,7 +12,7 @@ class SNEvercate_Woocommerce
 
     public function __construct()
     {
-        add_action("woocommerce_order_status_completed", [$this, 'woocommerce_payment_complete'], 10, 3); //mostly if not set automatically with hook below.
+        add_action(SNILLRIK_EV_WOO_HOOK, [$this, 'woocommerce_payment_complete'], 10, 3); //mostly if not set automatically with hook below.
         add_action("woocommerce_payment_complete", [$this, 'woocommerce_payment_complete'], 10, 3);
         add_action("woocommerce_admin_order_data_after_shipping_address", [$this, 'woocommerce_admin_order_data'], 10, 3);
         add_action('woocommerce_add_to_cart_validation', [$this, 'add_to_cart'], 40, 2);

@@ -16,8 +16,10 @@ DEFINE("SNILLRIK_EV_PLUGIN_URL", plugin_dir_url(__FILE__));
 DEFINE("SNILLRIK_EV_DIR", plugin_dir_path(__FILE__));
 DEFINE("SNILLRIK_EV_NAME", "snevercate");
 
-DEFINE("SNILLRIK_EV_ADD_TITLE", true);
-DEFINE("SNILLRIK_EV_NO_ADDRESS_ON_VIRTUAL", true);
+//ToDo: Add to settings page
+DEFINE("SNILLRIK_EV_ADD_TITLE", true); //add business title to customer.
+DEFINE("SNILLRIK_EV_NO_ADDRESS_ON_VIRTUAL", true); //To remove address fields on virtual products.
+DEFINE("SNILLRIK_EV_WOO_HOOK","woocommerce_payment_complete"); //for when Woo should post to Evercate 
 
 require_once SNILLRIK_EV_DIR . 'classes/settings.php';
 require_once SNILLRIK_EV_DIR . 'classes/evercate_api.php';
