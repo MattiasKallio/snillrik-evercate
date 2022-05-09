@@ -1,5 +1,5 @@
 # snillrik-evercate
- Plugin for WooCommerce to interact with Evercate API
+ Plugin for WooCommerce to interact with Evercate API. Very simple to use but pretty smart way of selling Evercate courses in Woo.
 
 ## install
 Install as any other plugin. 
