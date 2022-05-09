@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Snillrik Evercate\n"
-"POT-Creation-Date: 2021-12-20 13:11+0100\n"
-"PO-Revision-Date: 2021-12-20 13:14+0100\n"
+"POT-Creation-Date: 2022-05-09 10:29+0200\n"
+"PO-Revision-Date: 2022-05-09 10:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -26,68 +26,72 @@ msgstr "Testanslutning"
 
 #: classes/settings.php:44
 msgid "Make a test call to evercate. Use console to see response."
-msgstr "Ringa ett test anrop till evercate. Använd konsolen för att se svaret."
+msgstr "Test-anrop till evercate. Använd konsolen för att se svaret."
 
 #: classes/settings.php:46
 msgid "Test call"
 msgstr "Testanrop"
 
-#: classes/settings.php:84 classes/settings.php:93
+#: classes/settings.php:84
+msgid "Url to evercate api"
+msgstr ""
+
+#: classes/settings.php:93
 msgid "Long and very weird text string"
 msgstr "Lång och väldigt konstig textsträng"
 
-#: classes/woocommerce.php:64
+#: classes/woocommerce.php:66
 msgid "Titel / Funktion"
 msgstr "Titel / Funktion"
 
-#: classes/woocommerce.php:65
+#: classes/woocommerce.php:67
 msgctxt "placeholder"
 msgid "Skriv in titel eller funktion..."
 msgstr "Skriv i titel eller funktion..."
 
-#: classes/woocommerce.php:81
+#: classes/woocommerce.php:83
 msgid "Evercate"
 msgstr ""
 
-#: classes/woocommerce.php:111
+#: classes/woocommerce.php:113
 msgid "Enable Evevercate"
 msgstr "Aktivera Evevercate"
 
-#: classes/woocommerce.php:112
+#: classes/woocommerce.php:114
 msgid "To enable evercate on this product."
 msgstr "För att aktivera evercate på den här produkten."
 
-#: classes/woocommerce.php:120
+#: classes/woocommerce.php:122
 #, php-format
 msgid "User Group %s"
 msgstr "Användargrupp %s"
 
-#: classes/woocommerce.php:128
+#: classes/woocommerce.php:130
 msgid "Evercate kurs-tagg"
 msgstr "Evercate kurs-tagg"
 
-#: classes/woocommerce.php:129
+#: classes/woocommerce.php:131
 #, php-format
 msgid "Click to select the course if this is a course %s"
 msgstr "Klicka för att välja kurs om det här är en kurs %s"
 
-#: classes/woocommerce.php:212
+#: classes/woocommerce.php:210
 msgid "User already in current course."
 msgstr "Användaren finns redan i den där kursen"
 
-#: classes/woocommerce.php:237
+#: classes/woocommerce.php:235
 msgid "Orderinformation from Evercate"
 msgstr "Beställningsinformation från Evercate"
 
-#: classes/woocommerce.php:240
+#: classes/woocommerce.php:238
 msgid "Date added: "
 msgstr "Tillagt datum"
 
-#: classes/woocommerce.php:244
+#: classes/woocommerce.php:242
 msgid "Should be done automatically but status is completed or processing."
 msgstr "Borde gjorts automagiskt men statusen är klar eller bearbetas."
 
-#: classes/woocommerce.php:245
+#: classes/woocommerce.php:243
 msgid "Post to Evercate"
 msgstr "Skicka till Evercate"
 

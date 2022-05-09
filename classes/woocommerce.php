@@ -23,9 +23,11 @@ class SNEvercate_Woocommerce
         add_filter('woocommerce_product_data_panels', [$this, 'evercate_course_field_tag']);
 
         //Adding title/function field to checkout fields
-        add_filter('woocommerce_billing_fields', [$this, 'custom_woocommerce_billing_fields']);
+        if(SNILLRIK_EV_ADD_TITLE)
+            add_filter('woocommerce_billing_fields', [$this, 'custom_woocommerce_billing_fields']);
         //to hide address fields on virtual product
-        add_filter('woocommerce_checkout_fields', [$this, 'simplify_checkout_virtual']);
+        if(SNILLRIK_EV_NO_ADDRESS_ON_VIRTUAL)
+            add_filter('woocommerce_checkout_fields', [$this, 'simplify_checkout_virtual']);
 
         //For pushing button in order in admin if adding user failed.
         add_action('wp_ajax_evercate_push_woo_to_register',        [$this, 'push_woo_to_register']);
@@ -60,7 +62,7 @@ class SNEvercate_Woocommerce
      */
     function custom_woocommerce_billing_fields($fields)
     {
-        $fields['billing_titlefunction'] = array(
+        $fields[SNILLRIK_EV_NAME.'_billing_titlefunction'] = array(
             'label' => __('Titel / Funktion', 'woocommerce'), // Add custom field label
             'placeholder' => esc_attr_x('Skriv in titel eller funktion...', 'placeholder', 'woocommerce'), // Add custom field placeholder
             'required' => false, // if field is required or not
@@ -278,7 +280,7 @@ class SNEvercate_Woocommerce
         $has_evercate = false;
 
         $email = $order->get_billing_email();
-        $titlefunction = $order->get_meta('_billing_titlefunction');
+        $titlefunction = SNILLRIK_EV_ADD_TITLE ? $order->get_meta(SNILLRIK_EV_NAME.'_billing_titlefunction') : "";
         $city = $order->get_billing_city();
         $company = $order->get_billing_company();
 
@@ -300,7 +302,7 @@ class SNEvercate_Woocommerce
         foreach ($items as $item_id => $item) {
             $product_name = $item['name'];
             $product_id = $item['product_id'];
-            $product = wc_get_product($product_id);
+            //$product = wc_get_product($product_id);
             $course_tag = get_post_meta($product_id, 'evercate_course_tag', true);
             $course_group = get_post_meta($product_id, 'evercate_course_group', true);
 
@@ -317,7 +319,6 @@ class SNEvercate_Woocommerce
 
         //save to evercate and woo if found.
         if ($has_evercate && count($evercate_user->UserTags) > 0) {
-            error_log("andra: " . print_r($evercate_user, true));
 
             $response = $evercate_user->save();
 

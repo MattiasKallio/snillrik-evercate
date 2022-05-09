@@ -16,6 +16,9 @@ DEFINE("SNILLRIK_EV_PLUGIN_URL", plugin_dir_url(__FILE__));
 DEFINE("SNILLRIK_EV_DIR", plugin_dir_path(__FILE__));
 DEFINE("SNILLRIK_EV_NAME", "snevercate");
 
+DEFINE("SNILLRIK_EV_ADD_TITLE", true);
+DEFINE("SNILLRIK_EV_NO_ADDRESS_ON_VIRTUAL", true);
+
 require_once SNILLRIK_EV_DIR . 'classes/settings.php';
 require_once SNILLRIK_EV_DIR . 'classes/evercate_api.php';
 require_once SNILLRIK_EV_DIR . 'classes/evercate_user.php';
