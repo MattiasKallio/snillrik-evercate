@@ -13,3 +13,25 @@ The kurs-tagg is selected by clicking it in the input field (all courses should 
 
 ## WooCommerce purchase
 When purchaes of product, is done (ie payment_complete) the cource is added to the user in Evercate, (and a new user is added if it does not exist).
+
+## Basic flow
+### Admin
+Settings under Evercate + in admin menu.
+
+### Product
+Adds product like any other WooCommerce product.
+Click the Evercate-tab and "Activate Evercate"
+Click the cource button you want to add
+Save product
+
+### Customer
+Shops cource adds to basket, checksout.
+
+### Order
+When order is payed (woocommerce_payment_complete or woocommerce_order_status_completed, so either if payement is completed via payment solution, or when status is changed to completed) info is posted to Evercate to create user as stated above.
+
+### Evercate
+User is added to cource and can go on and learning cool and interesting stuff.
+
+## Disclaimer 
+Only tested on one site, but should work on and WordPress / WooCommerce installation. 
