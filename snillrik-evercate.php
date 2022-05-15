@@ -1,16 +1,17 @@
 <?php
 defined( 'ABSPATH' ) OR die( 'This script cannot be accessed directly.' );
-/*
-Plugin Name: Snillrik Evercate
-Plugin URI: http://www.snillrik.se/
-Description: This is a plugin for adding some Evercate functionallity to WP and WooCommerce.
-Version: 0.7
-Author: Mattias Kallio
-Author URI: http://www.snillrik.se
-License: GPL2
-Text Domain: snevercate
-Domain Path: /languages
- */
+/**
+* Plugin Name: Snillrik Evercate
+* Plugin URI: http://www.snillrik.se/
+* Description: This is a plugin for adding some Evercate functionallity to WP and WooCommerce.
+* Version: 0.7.1
+* Author: Mattias Kallio
+* Author URI: http://www.snillrik.se
+* License: GPL v2 or later
+* License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+* Text Domain: snevercate
+* Domain Path: /languages
+*/
 
 DEFINE("SNILLRIK_EV_PLUGIN_URL", plugin_dir_url(__FILE__));
 DEFINE("SNILLRIK_EV_DIR", plugin_dir_path(__FILE__));
