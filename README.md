@@ -6,6 +6,13 @@ Install as any other plugin.
 Add the credentials you get from Evercate under Evercate+ settings in admin.
 (You can make a test call using email or id to see if you are connected to Evercate, check console in webtools)
 
+## Evercate settings / tags
+In Evercate administration add a "tag" under Users / Hadle tags add a tag for each course or package etc. i.e "My package of 3 course" or "My course".
+
+Under each course select the tag under Users / Handle user rules.
+
+Thare are lot of ways to use tags in Evercate, so there might be other ways to explore. ;)
+
 ## Adding Kurs products
 When creating a new WooCommerce-product, you will find Evercate-tab with settings for connecting the purchase to the corresponding kurs.
 The "user group" is more or less always the same when connected this way, so it's a read only var.
