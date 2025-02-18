@@ -258,7 +258,8 @@ class SNEvercate_Woocommerce
         if ($evercate_user_info != "") {
             $snevwoo = new SNEvercate_Woocommerce();
             $response = $snevwoo->woocommerce_payment_complete($order->get_id());
-            $response_text = $response == "" ? "" : "Svar från server: " . esc_html(print_r($response, true));
+            //$response_text = $response == "" ? "" : "Svar från server: " . esc_html(print_r($response, true));
+            $response_text = esc_attr__("User added to Evercate.", SNILLRIK_EV_NAME);
             wp_send_json_success($response_text);
         }
     }
